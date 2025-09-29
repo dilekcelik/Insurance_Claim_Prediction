@@ -10,7 +10,6 @@ from datetime import datetime
 model = joblib.load("xgb_optuna.pkl")
 
 st.title("🚗 FNOL Claim Prediction App")
-
 st.write("Fill in the details to generate model-ready features.")
 
 # ---------------------------
@@ -158,7 +157,6 @@ df["day_of_month_sin"] = np.sin(2 * np.pi * date_of_loss.day / date_of_loss.days
 df["day_of_month_cos"] = np.cos(2 * np.pi * date_of_loss.day / date_of_loss.days_in_month)
 
 # Season cyclical
-season_map = {1:"Winter",2:"Spring",3:"Summer",4:"Autumn"}
 season_num = 1 if date_of_loss.month in [12,1,2] else 2 if date_of_loss.month in [3,4,5] else 3 if date_of_loss.month in [6,7,8] else 4
 df["season_sin"] = np.sin(2 * np.pi * season_num / 4)
 df["season_cos"] = np.cos(2 * np.pi * season_num / 4)
@@ -189,14 +187,15 @@ df["tp_injury_nk_x_time_hour"] = df["tp_injury_nk"] * df["time_hour"]
 df["tp_injury_nk_x_tp_injury_whiplash"] = df["tp_injury_nk"] * df["tp_injury_whiplash"]
 
 # ---------------------------
-# Prediction
+# Preview Features
 # ---------------------------
 st.subheader("Generated Features")
 st.dataframe(df)
 st.write(f"📊 Number of features: {df.shape[1]}")
 
-
-# --- Prediction ---
+# ---------------------------
+# Prediction
+# ---------------------------
 if st.button("Predict Capped Incurred"):
     prediction = model.predict(df)[0]
     st.success(f"💰 Predicted Capped Incurred: **£{prediction:,.2f}**")
