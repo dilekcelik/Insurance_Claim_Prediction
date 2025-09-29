@@ -53,7 +53,8 @@ with st.expander("👥 Third Party Types (Counts)", expanded=False):
     for i, (x, max_val) in enumerate(tp_type_max.items()):
         with cols[i % 4]:
             tp_type_features[f"tp_type_{x}"] = st.number_input(
-                f"{x}", min_value=0, max_value=max_val, value=0, step=1
+                f"{x}", min_value=0, max_value=max_val, value=0, step=1,
+                key=f"tp_type_{x}"   # <-- unique key
             )
 
 # ===========================
@@ -66,7 +67,8 @@ with st.expander("🤕 Third Party Injuries (Counts)", expanded=False):
     for i, (x, max_val) in enumerate(tp_injury_max.items()):
         with cols[i % 5]:
             tp_injury_features[f"tp_injury_{x}"] = st.number_input(
-                f"{x}", min_value=0, max_value=max_val, value=0, step=1
+                f"{x}", min_value=0, max_value=max_val, value=0, step=1,
+                key=f"tp_injury_{x}"   # <-- unique key
             )
 
 # ===========================
@@ -83,7 +85,8 @@ with st.expander("🌍 Third Party Regions (Counts)", expanded=False):
     for i, (x, max_val) in enumerate(tp_region_max.items()):
         with cols[i % 4]:
             tp_region_features[f"tp_region_{x}"] = st.number_input(
-                f"{x}", min_value=0, max_value=max_val, value=0, step=1
+                f"{x}", min_value=0, max_value=max_val, value=0, step=1,
+                key=f"tp_region_{x}"   # <-- unique key
             )
 
 # ===========================
