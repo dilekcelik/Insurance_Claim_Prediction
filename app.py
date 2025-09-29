@@ -28,46 +28,78 @@ incident_details_present = st.checkbox("Incident Details Present", value=True)
 injury_details_present = st.checkbox("Injury Details Present", value=False)
 
 # ---------------------------
-# 3. TP Type
+# 3. TP Type (counts)
 # ---------------------------
-tp_type = st.multiselect(
-    "Third Party Types",
-    ["insd_pass_back","insd_pass_front","driver","pass_back","pass_front",
-     "bike","cyclist","pass_multi","pedestrian","other","nk"],
-    default=["driver"]
-)
+st.subheader("Third Party Types (Counts)")
+tp_type_features = {}
+for x, max_val in {
+    "insd_pass_back": 4,
+    "insd_pass_front": 0,
+    "driver": 5,
+    "pass_back": 6,
+    "pass_front": 2,
+    "bike": 2,
+    "cyclist": 1,
+    "pass_multi": 0,
+    "pedestrian": 1,
+    "other": 6,
+    "nk": 6
+}.items():
+    tp_type_features[f"tp_type_{x}"] = st.number_input(
+        f"TP Type - {x}", min_value=0, max_value=max_val, value=0, step=1
+    )
 
 # ---------------------------
-# 4. TP Injury
+# 4. TP Injury (counts)
 # ---------------------------
-tp_injury = st.multiselect(
-    "Third Party Injuries",
-    ["whiplash","traumatic","fatality","unclear","nk"],
-    default=["whiplash"]
-)
+st.subheader("Third Party Injuries (Counts)")
+tp_injury_features = {}
+for x, max_val in {
+    "whiplash": 7,
+    "traumatic": 4,
+    "fatality": 2,
+    "unclear": 7,
+    "nk": 6
+}.items():
+    tp_injury_features[f"tp_injury_{x}"] = st.number_input(
+        f"TP Injury - {x}", min_value=0, max_value=max_val, value=0, step=1
+    )
 
 # ---------------------------
-# 5. TP Region
+# 5. TP Region (counts)
 # ---------------------------
-tp_region = st.selectbox(
-    "Third Party Region",
-    ["eastang","eastmid","london","north","northw","outerldn",
-     "scotland","southe","southw","wales","westmid","yorkshire"],
-    index=2
-)
+st.subheader("Third Party Regions (Counts)")
+tp_region_features = {}
+for x, max_val in {
+    "eastang": 5,
+    "eastmid": 6,
+    "london": 9,
+    "north": 4,
+    "northw": 7,
+    "outerldn": 5,
+    "scotland": 6,
+    "southe": 9,
+    "southw": 5,
+    "wales": 7,
+    "westmid": 6,
+    "yorkshire": 5
+}.items():
+    tp_region_features[f"tp_region_{x}"] = st.number_input(
+        f"TP Region - {x}", min_value=0, max_value=max_val, value=0, step=1
+    )
 
 # ---------------------------
-# 7. PH Fault
+# 6. PH Fault
 # ---------------------------
 ph_fault = st.selectbox("PH considered TP at fault", ["N","Unknown","Y"], index=0)
 
 # ---------------------------
-# 8. Vehicle Mobile
+# 7. Vehicle Mobile
 # ---------------------------
 vehicle_mobile = st.selectbox("Vehicle Mobile", ["N","Unknown","Y"], index=0)
 
 # ---------------------------
-# 9. Location
+# 8. Location
 # ---------------------------
 location = st.selectbox(
     "Location of Incident",
@@ -76,17 +108,17 @@ location = st.selectbox(
 )
 
 # ---------------------------
-# 10. Weather
+# 9. Weather
 # ---------------------------
 weather = st.selectbox("Weather Conditions", ["NORMAL","SNOW_ICE_FOG","Unknown","WET"], index=0)
 
 # ---------------------------
-# 11. Notifier
+# 10. Notifier
 # ---------------------------
 notifier = st.selectbox("Notifier", ["CNF","NamedDriver","Other","PH","TP"], index=3)
 
 # ---------------------------
-# 12. Main Driver
+# 11. Main Driver
 # ---------------------------
 main_driver = st.selectbox("Main Driver", ["N","Other","Y"], index=2)
 
@@ -104,14 +136,10 @@ df = pd.DataFrame([{
     "incident_details_present": int(incident_details_present),
     "injury_details_present": int(injury_details_present),
 
-    # TP Types
-    **{f"tp_type_{x}": int(x in tp_type) for x in ["insd_pass_back","insd_pass_front","driver","pass_back","pass_front","bike","cyclist","pass_multi","pedestrian","other","nk"]},
-
-    # TP Injuries
-    **{f"tp_injury_{x}": int(x in tp_injury) for x in ["whiplash","traumatic","fatality","unclear","nk"]},
-
-    # TP Regions
-    **{f"tp_region_{x}": int(x == tp_region) for x in ["eastang","eastmid","london","north","northw","outerldn","scotland","southe","southw","wales","westmid","yorkshire"]},
+    # TP Types, Injuries, Regions
+    **tp_type_features,
+    **tp_injury_features,
+    **tp_region_features,
 
     # PH Fault
     "ph_tp_fault_n": 1 if ph_fault=="N" else 0,
