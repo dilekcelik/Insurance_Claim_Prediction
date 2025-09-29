@@ -7,7 +7,7 @@ from datetime import datetime
 # ---------------------------
 # Load model
 # ---------------------------
-# model = joblib.load("xgb_optuna.pkl")
+model = joblib.load("xgb_optuna.pkl")
 
 st.title("🚗 FNOL Claim Prediction App")
 
@@ -193,6 +193,7 @@ df["tp_injury_nk_x_tp_injury_whiplash"] = df["tp_injury_nk"] * df["tp_injury_whi
 # ---------------------------
 st.subheader("Generated Features")
 st.dataframe(df)
+st.write(f"📊 Number of features: {df.shape[1]}")
 
 
 # --- Prediction ---
