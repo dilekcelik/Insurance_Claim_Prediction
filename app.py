@@ -198,5 +198,5 @@ st.write(f"📊 Number of features: {df.shape[1]}")
 
 # --- Prediction ---
 if st.button("Predict Capped Incurred"):
-    prediction = model.predict(input_df)[0]
+    prediction = model.predict(df)[0]
     st.success(f"💰 Predicted Capped Incurred: **£{prediction:,.2f}**")
