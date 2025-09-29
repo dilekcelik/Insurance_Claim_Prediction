@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 # Load trained model
-model = joblib.load("model.pkl")   # Replace with your saved model file
+model = joblib.load("xgb_optuna.pkl")   # Replace with your saved model file
 
 st.title("🚗 FNOL Claim Prediction App")
 
